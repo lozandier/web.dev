@@ -60,8 +60,6 @@ class Carousel extends BaseElement {
       ...this._carouselTrack.children,
     ]);
 
-    this._items.forEach((v, i) => v.setAttribute('data-index', '' + i));
-
     this._previousButton = this.querySelector('button[data-direction="prev"]');
     this._previousButton.addEventListener('click', this.previous);
     this._nextButton = this.querySelector('button[data-direction="next"]');
@@ -72,7 +70,6 @@ class Carousel extends BaseElement {
     );
 
     this._carouselTrack.addEventListener('scroll', this._onScroll);
-
     this.moveSlide(0, false);
   }
 
@@ -132,18 +129,16 @@ class Carousel extends BaseElement {
    * Event listener function that determines which element a user has scrolled to.
    */
   _onScroll() {
-    for (const item of this._items) {
+    for (let i = 0; i < this._items.length; i++) {
+      const item = this._items[i];
       const overflow =
-        (this._carouselTrack.parentElement.clientWidth -
-          this._carouselTrack.clientWidth) /
-        2;
-
+        this._carouselTrack.parentElement.clientWidth -
+        this._carouselTrack.clientWidth;
       if (
         this._carouselTrack.scrollLeft + overflow <=
         item.offsetLeft + item.offsetWidth
       ) {
-        const index = parseInt(item.getAttribute('data-index'), 10);
-        return this.moveSlide(index - this._index, false);
+        return this.moveSlide(i - this._index, false);
       }
     }
   }

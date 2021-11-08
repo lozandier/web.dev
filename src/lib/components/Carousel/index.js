@@ -44,6 +44,7 @@ class Carousel extends BaseElement {
 
     this.next = this.next.bind(this);
     this.previous = this.previous.bind(this);
+    this._onKeyup = this._onKeyup.bind(this);
     this._onScroll = this._onScroll.bind(this);
   }
 
@@ -69,7 +70,9 @@ class Carousel extends BaseElement {
       e.addEventListener('focusin', () => this.moveSlide(i - this._index)),
     );
 
-    this._carouselTrack.addEventListener('scroll', this._onScroll);
+    this._carouselTrack.addEventListener('keyup', this._onKeyup);
+    this._carouselTrack.addEventListener('touchmove', this._onScroll);
+    this._carouselTrack.addEventListener('wheel', this._onScroll);
     this.moveSlide(0, false);
   }
 
@@ -79,7 +82,9 @@ class Carousel extends BaseElement {
     this._nextButton?.removeEventListener('click', this.next);
     window.clearTimeout(this._timeout);
     this._items.forEach((e) => e.removeChild(e));
-    this._carouselTrack?.removeEventListener('scroll', this._onScroll);
+    this._carouselTrack?.removeEventListener('keyup', this._onKeyup);
+    this._carouselTrack?.removeEventListener('touchmove', this._onScroll);
+    this._carouselTrack?.removeEventListener('wheel', this._onScroll);
   }
 
   /**
@@ -123,6 +128,22 @@ class Carousel extends BaseElement {
 
   previous() {
     this.moveSlide(-1);
+  }
+
+  /**
+   * Event listener function that listens for key presses to see if user is switching elements.
+   *
+   * @param {KeyboardEvent} e The keyboard event.
+   */
+  _onKeyup(e) {
+    switch (e.key) {
+      case 'ArrowLeft':
+        return this.previous();
+      case 'ArrowRight':
+        return this.next();
+      default:
+        break;
+    }
   }
 
   /**

@@ -3,9 +3,9 @@ noindex: true
 permalink: "/pages.json"
 ---
 {% if site.env === 'prod' %}
-  {% set posts = collections.post | livePages %}
+  {% set posts = collections.all | livePages %}
 {% else %}
-  {% set posts = collections.post | livePages %}
+  {% set posts = [] %}
 {% endif %}
 
 [

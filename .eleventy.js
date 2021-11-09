@@ -19,6 +19,7 @@ const pluginRss = require('@11ty/eleventy-plugin-rss');
 const pluginSyntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight');
 const yaml = require('js-yaml');
 const fs = require('fs');
+const striptags = require('striptags');
 
 const toc = require('eleventy-plugin-toc');
 const markdown = require('./src/site/_plugins/markdown');
@@ -62,7 +63,6 @@ const YouTubePlaylist = require('./src/site/_includes/components/YouTubePlaylist
 const authors = require('./src/site/_collections/authors');
 const blogPostsDescending = require('./src/site/_collections/blog-posts-descending');
 const newsletters = require('./src/site/_collections/newsletters');
-const pages = require('./src/site/_collections/pages');
 const {
   postsWithLighthouse,
 } = require('./src/site/_collections/posts-with-lighthouse');
@@ -72,7 +72,7 @@ const tags = require('./src/site/_collections/tags');
 // Filters
 const consoleDump = require('./src/site/_filters/console-dump');
 const {i18n} = require('./src/site/_filters/i18n');
-const {getRelativePath} = require('./src/site/_filters/urls');
+const {getDefaultUrl, getRelativePath} = require('./src/site/_filters/urls');
 const {memoize, findByUrl} = require('./src/site/_filters/find-by-url');
 const pathSlug = require('./src/site/_filters/path-slug');
 const containsTag = require('./src/site/_filters/contains-tag');
@@ -81,12 +81,16 @@ const githubLink = require('./src/site/_filters/github-link');
 const gitlocalizeLink = require('./src/site/_filters/gitlocalize-link');
 const htmlDateString = require('./src/site/_filters/html-date-string');
 const isNewContent = require('./src/site/_filters/is-new-content');
+const {livePosts} = require('./src/site/_filters/live-posts');
+const {livePages} = require('./src/site/_filters/live-pages');
 const md = require('./src/site/_filters/md');
+const {md5} = require('./src/site/_filters/md5');
 const pagedNavigation = require('./src/site/_filters/paged-navigation');
 const postsLighthouseJson = require('./src/site/_filters/posts-lighthouse-json');
 const prettyDate = require('./src/site/_filters/pretty-date');
 const removeDrafts = require('./src/site/_filters/remove-drafts');
 const slugify = require('./src/site/_filters/slugify');
+const {stringify} = require('./src/site/_filters/stringify');
 const strip = require('./src/site/_filters/strip');
 const stripBlog = require('./src/site/_filters/strip-blog');
 const getPaths = require('./src/site/_filters/get-paths');
@@ -146,7 +150,6 @@ module.exports = function (config) {
   config.addCollection('authors', authors);
   config.addCollection('blogPosts', blogPostsDescending);
   config.addCollection('newsletters', newsletters);
-  config.addCollection('pages', pages);
   config.addCollection('postsWithLighthouse', postsWithLighthouse);
   config.addCollection('shows', shows);
   config.addCollection('tags', tags);
@@ -175,6 +178,7 @@ module.exports = function (config) {
   // ----------------------------------------------------------------------------
   config.addFilter('consoleDump', consoleDump);
   config.addFilter('i18n', i18n);
+  config.addFilter('getDefaultUrl', getDefaultUrl);
   config.addFilter('getRelativePath', getRelativePath);
   config.addFilter('findByUrl', findByUrl);
   config.addFilter('pathSlug', pathSlug);
@@ -185,7 +189,10 @@ module.exports = function (config) {
   config.addFilter('htmlDateString', htmlDateString);
   config.addFilter('imgix', generateImgixSrc);
   config.addFilter('isNewContent', isNewContent);
+  config.addFilter('livePages', livePages);
+  config.addFilter('livePosts', livePosts);
   config.addFilter('md', md);
+  config.addFilter('md5', md5);
   config.addFilter('navigation', navigation);
   config.addNunjucksAsyncFilter('siteRender', siteRender);
   config.addFilter('pagedNavigation', pagedNavigation);
@@ -193,7 +200,9 @@ module.exports = function (config) {
   config.addFilter('prettyDate', prettyDate);
   config.addFilter('removeDrafts', removeDrafts);
   config.addFilter('slugify', slugify);
+  config.addFilter('stringify', stringify);
   config.addFilter('stripBlog', stripBlog);
+  config.addFilter('striptags', striptags);
   config.addFilter('getPaths', getPaths);
   config.addFilter('strip', strip);
   config.addFilter('courseToc', courseToc);

@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-declare global {
-  export interface PagesCollectionItem {
-    content?: string;
-    createdOn?: Date;
-    description?: string;
-    image?: string;
-    locales: string[];
-    objectID: string;
-    tags: string[];
-    /**
-     * Title of a post.
-     */
-     title: string;
-     updatedOn?: Date;
-     url: string;
-  }
+/**
+ * @fileoverview Filter eleventy collection of posts that should not be in algolia.
+ */
 
-  export type PagesCollection = PagesCollectionItem[];
+const {livePosts} = require('./live-posts');
+
+/**
+ * @param {EleventyCollectionItem[]} posts An array of eleventy post object.
+ * @return {EleventyCollectionItem[]} The posts that should go be shown.
+ */
+function livePages(posts) {
+  return posts.filter(
+    (post) =>
+      livePosts(post) &&
+      post.url &&
+      post.data.title &&
+      !post.data.disable_algolia &&
+      !post.data.noindex,
+  );
 }
 
-// empty export to keep file a module
-export {};
+module.exports = {livePages};

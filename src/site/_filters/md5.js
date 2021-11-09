@@ -13,26 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+const {createHash} = require('crypto');
 
-declare global {
-  export interface PagesCollectionItem {
-    content?: string;
-    createdOn?: Date;
-    description?: string;
-    image?: string;
-    locales: string[];
-    objectID: string;
-    tags: string[];
-    /**
-     * Title of a post.
-     */
-     title: string;
-     updatedOn?: Date;
-     url: string;
-  }
+const md5 = (i) => createHash('md5').update(i).digest('hex');
 
-  export type PagesCollection = PagesCollectionItem[];
-}
-
-// empty export to keep file a module
-export {};
+module.exports = {md5};

@@ -14,25 +14,6 @@
  * limitations under the License.
  */
 
-declare global {
-  export interface PagesCollectionItem {
-    content?: string;
-    createdOn?: Date;
-    description?: string;
-    image?: string;
-    locales: string[];
-    objectID: string;
-    tags: string[];
-    /**
-     * Title of a post.
-     */
-     title: string;
-     updatedOn?: Date;
-     url: string;
-  }
+const stringify = (i) => JSON.stringify(i);
 
-  export type PagesCollection = PagesCollectionItem[];
-}
-
-// empty export to keep file a module
-export {};
+module.exports = {stringify};

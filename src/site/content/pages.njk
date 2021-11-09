@@ -2,4 +2,37 @@
 noindex: true
 permalink: "/pages.json"
 ---
-{{ collections.pages | dump(2) | safe }}
+{% if site.env === 'prod' %}
+  {% set posts = collections.post | livePages %}
+{% else %}
+  {% set posts = collections.post | livePages %}
+{% endif %}
+
+[
+{% for post in posts %}
+  {% set data = post.data %}
+
+  {# Process string content #}
+  {% set content = post.templateContent | striptags | stringify | safe %}
+  {% set description = (data.renderData.description or data.description) | stringify | safe %}
+  {% set title = (data.renderData.title or data.title) | stringify | safe %}
+
+  {# Check if above values have any length #}
+  {% set content = content if content.length > 0 else '""' | safe %}
+  {% set description = description if description.length > 0 else '""' | safe %}
+  {% set title = title if title.length > 0 else '""' | safe %}
+
+  {
+    "content": {{ content }},
+    "createdOn": "{{ data.date }}",
+    "description": {{ description }},
+    "image": {% if data.hero %}"{{ data.hero | imgix({w: 100, auto: 'format'}) }}"{% else %}null{% endif %},
+    "locales": {{ [data.lang] | stringify | safe }},
+    "objectID": "{{ post.url | md5 }}",
+    "tags": {{ (data.tags or []) | stringify | safe }},
+    "title": {{ title }},
+    "updatedOn": "{{ data.updated }}",
+    "url": "{{ post.url | getDefaultUrl }}"
+  }{{ "" if loop.last else "," }}
+{% endfor %}
+]

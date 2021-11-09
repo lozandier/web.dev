@@ -20,6 +20,7 @@ declare global {
      * Date of index, only available after indexed. Basically can only be used by search.
      */
     indexedOn?: number;
+    locales: string[];
   }
 }
 

@@ -14,24 +14,28 @@ permalink: "/pages.json"
 
   {# Process string content #}
   {% set content = post.templateContent | striptags | stringify | safe %}
+  {% set createdOn = data.date | stringify | safe %}
   {% set description = (data.renderData.description or data.description) | stringify | safe %}
   {% set title = (data.renderData.title or data.title) | stringify | safe %}
+  {% set updatedOn = data.updatedOn | stringify | safe %}
 
   {# Check if above values have any length #}
   {% set content = content if content.length > 0 else '""' | safe %}
+  {% set createdOn = createdOn if createdOn.length > 0 else 'null' | safe %}
   {% set description = description if description.length > 0 else '""' | safe %}
   {% set title = title if title.length > 0 else '""' | safe %}
+  {% set updatedOn = updatedOn if updatedOn.length > 0 else 'null' | safe %}
 
   {
     "content": {{ content }},
-    "createdOn": "{{ data.date }}",
+    "createdOn": {{ createdOn }},
     "description": {{ description }},
     "image": {% if data.hero %}"{{ data.hero | imgix({w: 100, auto: 'format'}) }}"{% else %}null{% endif %},
-    "locales": {{ [data.lang] | stringify | safe }},
+    "locale": "{{  data.lang or site.defaultLocale }}",
     "objectID": "{{ post.url | md5 }}",
     "tags": {{ (data.tags or []) | stringify | safe }},
     "title": {{ title }},
-    "updatedOn": "{{ data.updated }}",
+    "updatedOn": {{ updatedOn }},
     "url": "{{ post.url | getDefaultUrl }}"
   }{{ "" if loop.last else "," }}
 {% endfor %}

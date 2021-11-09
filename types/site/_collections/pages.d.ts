@@ -20,7 +20,7 @@ declare global {
     createdOn?: Date;
     description?: string;
     image?: string;
-    locales: string[];
+    locale: string;
     objectID: string;
     tags: string[];
     /**

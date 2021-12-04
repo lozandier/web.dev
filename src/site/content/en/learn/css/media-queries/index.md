@@ -28,7 +28,7 @@ With CSS Media Queries you can solve this problem:
 
 {% YouTube "JLRFF56_S3U" %}
 
-Because the Web is agnostic, there became a need across standardized Web languages for Web developers to be able inquire whether or not a set of criteria applies to a medium. The result of that was the [Media Query]  standard, a normalized means to write a query with a `true` or `false` result whether certain media conditions hold true for a particular device the Web is being consumed on.
+Because the Web is agnostic, there became a need across standardized Web languages for Web developers to be able to inquire whether or not a set of criteria applies to a medium. The result of that was the [Media Query]  standard, a normalized means to write a query with a `true` or `false` result whether certain media conditions hold true for a particular device the Web is being consumed on.
 
 CSS styles are applied to documents that can be consumed in a medium other than browsers; accordingly media queries are a handy way for Web creatives to conditionally apply styles to fix, enhance, or maximize a document's usefulness accounting for particular media conditions applicable
 
@@ -538,7 +538,7 @@ Invalid. If you intended to conditionally apply styles based on a media type or 
 {% endCompareCaption %}
 {% endCompare %}
 
-This is because while great care is taken by browsers to assume a user is querying all possible media types when they don't explicitly specific a media type with their media queries to make specifying a media type *conditonally* optional, a media query can't be written in a way that suggests the media type part of a media query is *completely* optional.
+This is because while great care is taken by browsers to assume a user is querying all possible media types when they don't explicitly specific a media type with their media queries to make specifying a media type *conditionally* optional, a media query can't be written in a way that suggests the media type part of a media query is *completely* optional.
 
 This particular nuance with how a media type and one or more media features are represented in a particular media query make it easier to parse media queries leveraging the `not` query modifier keyword. In particular, this convention with the use of a media type and one or more media features helps ensure it can be consistently understood that an entire media query is negated with the use of `not` and not just the media type if `or` was immediately allowed to follow one right before zero or more media features.
 
@@ -619,9 +619,9 @@ The following code example conditionally applies styles to a document if a mediu
 }
 ```
 
-If a medium did not meet this criteria, the styles would’t apply to the document on the device at all; all the media features specified must be applicable to the medium.
+If a medium did not meet this criteria, the styles wouldn’t apply to the document on the device at all; all the media features specified must be applicable to the medium.
 
-In comparision the media query could be refactored to allow a medium to conditionally have styles within the media at-rule applied to the document on the medium if any the media features specified were applicable to a medium
+In comparision, the media query could be refactored to allow a medium to conditionally have styles within the media at-rule applied to the document on the medium if any the media features specified were applicable to a medium:
 ```css
 @media (pointer: fine) or (orientation: landscape) or (color) {
   /* Styles conditionally applied */
@@ -675,7 +675,7 @@ The following two code snippets are accordingly not equivalent
 {% Aside 'gotchas' %}
 In an earlier example we had a code snippet demonstrating how to  conditionally apply styles based on a media type and media feature simultaneously:
 ```css
-@media not screen and (orienation: portrait) {
+@media not screen and (orientation: portrait) {
   /* Styles */
 }
 ```

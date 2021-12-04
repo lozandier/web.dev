@@ -41,7 +41,7 @@ questions:
           Media queries can be used with in CSS using the `@media` or `@import` [at-rules](https://thecsspodcast.libsyn.com/031-rules)
       - content: 'JavaScript'
         rationale: |
-          JavaScript has APIs like `matchMedia` intended to be used with media queries.
+          JavaScript has APIs like `matchMedia` are intended to be used with media queries.
       - content: '`@import`'
         rationale: |
           `@import` is one of the two [at-rules](https://thecsspodcast.libsyn.com/031-rules) in CSS that allows you to use Media Queries meaningfully in CSS.
@@ -90,7 +90,7 @@ questions:
     correctAnswers: "0"
     stimulus: |
       ```css
-      @media (orientaton: landscape) {
+      @media (orientation: landscape) {
         body {
           background: blue
         }
